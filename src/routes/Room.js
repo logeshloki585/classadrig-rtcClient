@@ -7,15 +7,37 @@ const Container = styled.div`
     padding: 20px;
     display: flex;
     height: 100vh;
-    width: 90%;
-    margin: auto;
+    width: 100%;
     flex-wrap: wrap;
+    background-color:black;
+`;
+
+const VideoContainer = styled.div`
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    height: 70vh;
+    margin: auto;
+    border: 1px solid white;
 `;
 
 const StyledVideo = styled.video`
     height: 40%;
     width: 50%;
 `;
+
+const SelfVideo = styled.video`
+    height: 200px;
+    width: 400px;
+`;
+const FlexVideo = styled.div`
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+`;
+
 
 const Video = ({ peer }) => {
     const ref = useRef();
@@ -117,8 +139,15 @@ const Room = (props) => {
             stream,
             config: {
                 iceServers: [
-                    { urls: "stun:stun.l.google.com:19302" }, // Google's public STUN server
-                ],
+                    // STUN Servers
+                    { urls: "stun:stun.l.google.com:19302" },
+                    { urls: "stun:stun1.l.google.com:19302" },
+                    { urls: "stun:stun.stunprotocol.org:3478" },
+                    { urls: "stun:stun.voipstunt.com" },
+                    { urls: "stun:stun.voxgratia.org" },
+                    { urls: "turn:numb.viagenie.ca", credential: "muazkh", username: "webrtc@live.com" },
+                    { urls: "turn:192.158.29.39:3478?transport=udp", credential: "JZEOEt2V3Qb0y27GRntt2u2PAYA=", username: "28224511:1379330808" },
+                ]
             },
         });
 
@@ -132,11 +161,15 @@ const Room = (props) => {
     }
 
     return (
-        <Container>
-            <StyledVideo muted ref={userVideo} autoPlay playsInline />
-            {peers.map((peer, index) => {
-                return <Video key={index} peer={peer} />;
-            })}
+        <Container >
+            <VideoContainer>
+                {peers.map((peer, index) => {
+                    return <Video key={index} peer={peer} />;
+                })}
+            </VideoContainer>
+            <FlexVideo>
+                <SelfVideo muted ref={userVideo} autoPlay playsInline />
+            </FlexVideo>
         </Container>
     );
 };
