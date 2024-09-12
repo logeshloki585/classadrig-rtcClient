@@ -42,7 +42,7 @@ const Room = (props) => {
     const roomID = props.match.params.roomID;
 
     useEffect(() => {
-        socketRef.current = io.connect("http://localhost:8000");
+        socketRef.current = io.connect("https://noisy-aleda-adrig0-c5c9a11f.koyeb.app");
         navigator.mediaDevices
             .getUserMedia({ video: videoConstraints, audio: true })
             .then((stream) => {
