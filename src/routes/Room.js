@@ -102,13 +102,14 @@ const Room = (props) => {
         return () => {
             // Clean up on component unmount
             socketRef.current.disconnect();
+            peersRef.current.forEach(({ peer }) => peer.destroy());
         };
     }, [roomID]);
 
     function createPeer(userToSignal, callerID, stream) {
         const peer = new Peer({
             initiator: true,
-            trickle: false,
+            trickle: true,
             stream,
             config: {
                 iceServers: [
@@ -135,7 +136,7 @@ const Room = (props) => {
     function addPeer(incomingSignal, callerID, stream) {
         const peer = new Peer({
             initiator: false,
-            trickle: false,
+            trickle: true,
             stream,
             config: {
                 iceServers: [
